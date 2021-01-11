@@ -348,6 +348,12 @@
 #endif
 
 //////////////////////////////////////////////////////////////////////////////
+// Mamba YawHold 
+#ifndef MODE_MAMBA_YAW_HOLD_ENABLED
+# define MODE_MAMBA_YAW_HOLD_ENABLED ENABLED
+#endif
+
+//////////////////////////////////////////////////////////////////////////////
 // Sport - fly vehicle in rate-controlled (earth-frame) mode
 #ifndef MODE_SPORT_ENABLED
 # define MODE_SPORT_ENABLED !HAL_MINIMIZE_FEATURES

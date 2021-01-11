@@ -236,6 +236,7 @@ public:
     friend class ModeThrow;
     friend class ModeZigZag;
     friend class ModeAutorotate;
+    friend class ModeMambaYH;
 
     Copter(void);
 
@@ -989,6 +990,9 @@ private:
 #endif
 #if MODE_ZIGZAG_ENABLED == ENABLED
     ModeZigZag mode_zigzag;
+#endif
+#if MODE_MAMBA_YAW_HOLD_ENABLED == ENABLED
+    ModeMambaYH mode_mamba_yawHold;
 #endif
 #if MODE_AUTOROTATE_ENABLED == ENABLED
     ModeAutorotate mode_autorotate;

@@ -96,8 +96,47 @@ if [ -n "$RP" ]; then
     BASE_PKGS+=" realpath"
 fi
 
+<<<<<<< Updated upstream
 $APT_GET install $BASE_PKGS $SITL_PKGS $PX4_PKGS $ARM_LINUX_PKGS
 pip2 -q install --user -U $PYTHON_PKGS
+=======
+<<<<<<< Updated upstream
+# Check if we need to manually install libtool-bin
+LBTBIN=$(apt-cache search -n '^libtool-bin')
+if [ -n "$LBTBIN" ]; then
+    SITL_PKGS+=" libtool-bin"
+fi
+=======
+#$APT_GET install $BASE_PKGS $SITL_PKGS $PX4_PKGS $ARM_LINUX_PKGS
+pip -q install --user -U $PYTHON_PKGS
+>>>>>>> Stashed changes
+
+# Install all packages
+$APT_GET install $BASE_PKGS $SITL_PKGS $PX4_PKGS $ARM_LINUX_PKGS $COVERAGE_PKGS
+$PIP install --user -U $PYTHON_PKGS
+
+if [[ -z "${DO_AP_STM_ENV}" ]] && maybe_prompt_user "Install ArduPilot STM32 toolchain [N/y]?" ; then
+    DO_AP_STM_ENV=1
+fi
+
+heading "Removing modemmanager package that could conflict with firmware uploading"
+if package_is_installed "modemmanager" -eq 1; then
+    $APT_GET remove modemmanager
+fi
+echo "Done!"
+
+CCACHE_PATH=$(which ccache)
+if [[ $DO_AP_STM_ENV -eq 1 ]]; then
+  install_arm_none_eabi_toolchain
+fi
+
+heading "Check if we are inside docker environment..."
+IS_DOCKER=false
+if [[ -f /.dockerenv ]] || grep -Eq '(lxc|docker)' /proc/1/cgroup ; then
+    IS_DOCKER=true
+fi
+echo "Done!"
+>>>>>>> Stashed changes
 
 if [ ! -d $OPT/$ARM_ROOT ]; then
     (
